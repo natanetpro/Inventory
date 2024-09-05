@@ -11,6 +11,6 @@ require __DIR__ . '/auth.php';
 Route::redirect('/', '/login');
 
 // dashboard routes
-// Route::group(function () {
-// });
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});

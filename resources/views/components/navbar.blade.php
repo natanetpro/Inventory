@@ -471,10 +471,10 @@
                             <div class="dropdown-divider"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                            <span class="dropdown-item" id="logout" style="cursor: pointer" onclick="logout()">
                                 <i class="ti ti-logout me-2 ti-sm"></i>
                                 <span class="align-middle">Log Out</span>
-                            </a>
+                            </span>
                         </li>
                     </ul>
                 </li>
@@ -490,3 +490,20 @@
         </div>
     </div>
 </nav>
+
+@push('scripts')
+    <script>
+        function logout() {
+            $.ajax({
+                url: `{{ route('logout') }}`,
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': `{{ csrf_token() }}`
+                },
+                success: function(response) {
+                    window.location.href = `{{ route('login') }}`
+                }
+            })
+        }
+    </script>
+@endpush
