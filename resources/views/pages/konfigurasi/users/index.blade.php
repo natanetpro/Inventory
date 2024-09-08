@@ -118,6 +118,11 @@
         </script>
     @endif
     <script>
+        // Global Search
+        var searchString = '';
+        var isModalOpen = false; // Flag untuk mendeteksi apakah modal terbuka
+        var debounceTimeout; // Variabel untuk menyimpan timeout debounce
+        var currentIndex = -1; // Indeks baris yang dipilih saat ini
         $(document).ready(function() {
             // Init DataTable
             var table = $('#manajemen-users').DataTable({
@@ -148,12 +153,6 @@
                     }
                 ]
             });
-
-            // Global Search
-            var searchString = '';
-            var isModalOpen = false; // Flag untuk mendeteksi apakah modal terbuka
-            var debounceTimeout; // Variabel untuk menyimpan timeout debounce
-            var currentIndex = -1; // Indeks baris yang dipilih saat ini
 
             // Fungsi untuk debounce pencarian
             function debounceSearch() {
@@ -278,6 +277,7 @@
 
         // openModal
         function openModal(action, id = null) {
+            isModalOpen = true;
             $('#user-modal').modal('show');
             $('#form-users').trigger('reset');
             if (action === 'create') {
@@ -303,6 +303,7 @@
         }
 
         function deleteUser(id) {
+            isModalOpen = true;
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: "Data yang dihapus tidak dapat dikembalikan!",
