@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Konfigurasi\ManajemenUserController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -10,7 +11,16 @@ require __DIR__ . '/auth.php';
 // main routes
 Route::redirect('/', '/login');
 
-// dashboard routes
 Route::middleware('auth')->group(function () {
+    // dashboard routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // konfigurasi routes
+    Route::prefix('konfigurasi')->name('konfigurasi.')->group(function () {
+        // manajemen user routes
+        Route::get('/manajemen-users', [ManajemenUserController::class, 'index'])->name('manajemen-user.index');
+        Route::post('/manajemen-users', [ManajemenUserController::class, 'store'])->name('manajemen-user.store');
+        Route::put('/manajemen-users/{id}', [ManajemenUserController::class, 'update'])->name('manajemen-user.update');
+        Route::delete('/manajemen-users/{id}', [ManajemenUserController::class, 'destroy'])->name('manajemen-user.destroy');
+    });
 });
