@@ -243,6 +243,12 @@
                     navigateTable('up'); // Navigasi ke atas
                 } else if (event.key === 'ArrowDown') {
                     navigateTable('down'); // Navigasi ke bawah
+                } else if (event.key === 'Delete' || event.key === 'Del') {
+                    // Jika tombol delete ditekan
+                    if (table.rows('.selected').any()) {
+                        var data = table.row('.selected').data();
+                        deleteUser(data.id); // Panggil fungsi deleteUser dengan id dari baris yang dipilih
+                    }
                 } else if (isValidSearchKey(event)) {
                     // Jika karakter valid (huruf, angka, atau spasi), tambahkan ke searchString
                     searchString += event.key;
