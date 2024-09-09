@@ -26,10 +26,11 @@
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @foreach ($collection as $item)
+                    @foreach ($menus as $menu)
+                        <tr>
+                            <td>{{ $menu->kode }}</td>
+                        </tr>
                     @endforeach
-                    <tr>
-                    </tr>
                 </tbody>
             </table>
         </div>
