@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Konfigurasi\ManajemenMenuController;
 use App\Http\Controllers\Konfigurasi\ManajemenModulController;
 use App\Http\Controllers\Konfigurasi\ManajemenUserController;
 use App\Http\Middleware\Authenticate;
@@ -29,5 +30,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/manajemen-moduls', [ManajemenModulController::class, 'store'])->name('manajemen-modul.store');
         Route::put('/manajemen-moduls/{id}', [ManajemenModulController::class, 'update'])->name('manajemen-modul.update');
         Route::delete('/manajemen-moduls/{id}', [ManajemenModulController::class, 'destroy'])->name('manajemen-modul.destroy');
+
+        // manajemen menu routes
+        Route::get('/manajemen-menus', [ManajemenMenuController::class, 'index'])->name('manajemen-menu.index');
     });
 });
