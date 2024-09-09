@@ -12,7 +12,8 @@ class ManajemenMenuController extends Controller
 
     public function index()
     {
-        $menus = DB::table('menu_modul')->select('id', 'kode_modul', 'nama_modul')->get();
+        $menus = DB::table('menu_modul')->select('id', 'kode_modul', 'nama_modul')->orderBy('key')->get();
+        dd($menus);
         return view('pages.konfigurasi.menus.index', [
             'title' => $this->title,
             'menus' => $menus

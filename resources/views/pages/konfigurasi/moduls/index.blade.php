@@ -18,6 +18,7 @@
                         <th>Kode</th>
                         <th>Nama</th>
                         <th>URL</th>
+                        <th>File Path</th>
                         <th>Level</th>
                         <th>Aksi</th>
                     </tr>
@@ -36,6 +37,7 @@
                                 {{ $modul->nama_modul }}
                             </td>
                             <td>{{ $modul->nama_url }}</td>
+                            <td>{{ $modul->file_path }}</td>
                             <td>{{ $modul->textlevel }}</td>
                             <td>
                                 <button class="btn btn-warning" tabindex="1"
@@ -96,6 +98,15 @@
                             <input type="text" class="form-control @error('nama_url') is-invalid @enderror"
                                 id="basic-default-fullname" name="nama_url" />
                             @error('nama_url')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-default-fullname">File Path</label>
+                            <input type="text" class="form-control @error('file_path') is-invalid @enderror"
+                                id="basic-default-fullname" name="file_path" placeholder="Contoh: pages.modules.index" />
+                            @error('file_path')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -317,6 +328,7 @@
                         $('#form-moduls select[name="grup"]').attr('disabled', true);
                         $('#form-moduls input[name="nama_modul"]').val(data.data.nama_modul);
                         $('#form-moduls input[name="nama_url"]').val(data.data.nama_url);
+                        $('#form-moduls input[name="file_path"]').val(data.data.file_path ?? '');
 
                         $('#form-moduls').attr('action', `{{ url('konfigurasi/manajemen-moduls/${id}') }}`);
                         $('#form-moduls').append('<input type="hidden" name="_method" value="PUT">');
