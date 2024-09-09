@@ -328,6 +328,7 @@
                                 'success'
                             )
                             $('#manajemen-users').DataTable().ajax.reload();
+                            isModalOpen = false;
                         }
                     })
                 }
