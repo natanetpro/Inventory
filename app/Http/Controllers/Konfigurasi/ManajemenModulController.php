@@ -14,7 +14,8 @@ class ManajemenModulController extends Controller
 
     public function index(Request $request)
     {
-        $moduls = DB::select('SELECT * FROM menu_modul');
+        $moduls = DB::table('menu_modul')->orderBy('key')->get();
+        // dd($moduls);
         if ($request->ajax()) {
             return datatables()->of($moduls)
                 ->addColumn('action', function ($data) {
@@ -93,7 +94,7 @@ class ManajemenModulController extends Controller
                 'nama_modul' => $nama_modul,
                 'kode_grup' => $kode_grup,
                 'nama_grup' => $nama_grup,
-                'nama_url' => $nama_url,
+                'nama_url' => $nama_url ?? '#',
             ]);
 
             DB::commit();
