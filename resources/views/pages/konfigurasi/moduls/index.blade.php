@@ -22,6 +22,25 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
+
+                <tbody>
+                    @foreach ($moduls as $modul)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $modul->kode_modul }}</td>
+                            <td>{{ $modul->nama_modul }}</td>
+                            <td>{{ $modul->nama_url }}</td>
+                            <td>{{ $modul->textlevel }}</td>
+                            <td>
+                                <button class="btn btn-warning" tabindex="1"
+                                    onclick="openModal('edit', {{ $modul->id }})" data-bs-toggle="modal"
+                                    data-bs-target="#modul-modal">Edit</button>
+                                <button class="btn btn-danger" tabindex="1"
+                                    onclick="deleteModule({{ $modul->id }})">Hapus</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
@@ -108,165 +127,161 @@
     @endif
     <script>
         // Global Search
-        var searchString = '';
-        var isModalOpen = false; // Flag untuk mendeteksi apakah modal terbuka
-        var debounceTimeout; // Variabel untuk menyimpan timeout debounce
-        var currentIndex = -1; // Indeks baris yang dipilih saat ini
-        $(document).ready(function() {
-            // Init DataTable
-            var table = $('#manajemen-moduls').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{ route('konfigurasi.manajemen-modul.index') }}',
-                columns: [{
-                        data: 'id',
-                        name: 'id',
-                    },
-                    {
-                        data: 'key',
-                        name: 'key'
-                    },
-                    {
-                        data: 'nama_modul',
-                        name: 'nama_modul'
-                    },
-                    {
-                        data: 'nama_url',
-                        name: 'nama_url'
-                    },
-                    {
-                        data: 'textlevel',
-                        name: 'textlevel'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    }
-                ]
-            });
+        // $(document).ready(function() {
+        //     // Init DataTable
+        //     // var table = $('#manajemen-moduls').DataTable({
+        //     //     processing: true,
+        //     //     serverSide: true,
+        //     //     ajax: '{{ route('konfigurasi.manajemen-modul.index') }}',
+        //     //     columns: [{
+        //     //             data: 'id',
+        //     //             name: 'id',
+        //     //         },
+        //     //         {
+        //     //             data: 'key',
+        //     //             name: 'key'
+        //     //         },
+        //     //         {
+        //     //             data: 'nama_modul',
+        //     //             name: 'nama_modul'
+        //     //         },
+        //     //         {
+        //     //             data: 'nama_url',
+        //     //             name: 'nama_url'
+        //     //         },
+        //     //         {
+        //     //             data: 'textlevel',
+        //     //             name: 'textlevel'
+        //     //         },
+        //     //         {
+        //     //             data: 'action',
+        //     //             name: 'action',
+        //     //             orderable: false,
+        //     //             searchable: false
+        //     //         }
+        //     //     ]
+        //     // });
 
-            // // Fungsi untuk debounce pencarian
-            // function debounceSearch() {
-            //     clearTimeout(debounceTimeout);
-            //     debounceTimeout = setTimeout(function() {
-            //         if (!isModalOpen) {
-            //             table.search(searchString).draw();
-            //         }
-            //     }, 200);
-            // }
+        //     // // Fungsi untuk debounce pencarian
+        //     // function debounceSearch() {
+        //     //     clearTimeout(debounceTimeout);
+        //     //     debounceTimeout = setTimeout(function() {
+        //     //         if (!isModalOpen) {
+        //     //             table.search(searchString).draw();
+        //     //         }
+        //     //     }, 200);
+        //     // }
 
-            // // Fungsi untuk membuka modal tambah data
-            // function openAddModal() {
-            //     isModalOpen = true;
-            //     openModal('create');
-            // }
+        //     // // Fungsi untuk membuka modal tambah data
+        //     // function openAddModal() {
+        //     //     isModalOpen = true;
+        //     //     openModal('create');
+        //     // }
 
-            // // Fungsi untuk membuka modal update berdasarkan data row yang dipilih
-            // function openUpdateModal(data) {
-            //     isModalOpen = true;
-            //     openModal('edit', data.id);
-            // }
+        //     // // Fungsi untuk membuka modal update berdasarkan data row yang dipilih
+        //     // function openUpdateModal(data) {
+        //     //     isModalOpen = true;
+        //     //     openModal('edit', data.id);
+        //     // }
 
-            // // Event untuk menutup modal dan mengaktifkan kembali fitur pencarian
-            // $('#user-modal').on('hidden.bs.modal', function() {
-            //     isModalOpen = false;
-            // });
+        //     // // Event untuk menutup modal dan mengaktifkan kembali fitur pencarian
+        //     // $('#user-modal').on('hidden.bs.modal', function() {
+        //     //     isModalOpen = false;
+        //     // });
 
-            // // Fungsi untuk menavigasi tabel menggunakan panah atas dan bawah
-            // function navigateTable(direction) {
-            //     var rowCount = table.rows().count(); // Total jumlah baris dalam DataTable
+        //     // // Fungsi untuk menavigasi tabel menggunakan panah atas dan bawah
+        //     // function navigateTable(direction) {
+        //     //     var rowCount = table.rows().count(); // Total jumlah baris dalam DataTable
 
-            //     if (direction === 'up') {
-            //         if (currentIndex > 0) {
-            //             currentIndex--; // Pindah ke baris sebelumnya
-            //         } else if (currentIndex === 0) {
-            //             // Jika berada di baris pertama dan menekan panah atas, hilangkan seleksi
-            //             currentIndex = -1;
-            //             table.$('tr.selected').removeClass('selected');
-            //             return;
-            //         }
-            //     } else if (direction === 'down' && currentIndex < rowCount - 1) {
-            //         currentIndex++; // Pindah ke baris berikutnya
-            //     }
+        //     //     if (direction === 'up') {
+        //     //         if (currentIndex > 0) {
+        //     //             currentIndex--; // Pindah ke baris sebelumnya
+        //     //         } else if (currentIndex === 0) {
+        //     //             // Jika berada di baris pertama dan menekan panah atas, hilangkan seleksi
+        //     //             currentIndex = -1;
+        //     //             table.$('tr.selected').removeClass('selected');
+        //     //             return;
+        //     //         }
+        //     //     } else if (direction === 'down' && currentIndex < rowCount - 1) {
+        //     //         currentIndex++; // Pindah ke baris berikutnya
+        //     //     }
 
-            //     // Hapus semua baris yang dipilih sebelumnya
-            //     table.$('tr.selected').removeClass('selected');
+        //     //     // Hapus semua baris yang dipilih sebelumnya
+        //     //     table.$('tr.selected').removeClass('selected');
 
-            //     // Jika ada baris yang valid (currentIndex >= 0), pilih baris baru berdasarkan currentIndex
-            //     if (currentIndex >= 0) {
-            //         var row = $(table.row(currentIndex).node());
-            //         row.addClass('selected');
+        //     //     // Jika ada baris yang valid (currentIndex >= 0), pilih baris baru berdasarkan currentIndex
+        //     //     if (currentIndex >= 0) {
+        //     //         var row = $(table.row(currentIndex).node());
+        //     //         row.addClass('selected');
 
-            //         // Gulung halaman untuk memastikan baris terlihat
-            //         $('html, body').animate({
-            //             scrollTop: row.offset().top - 200
-            //         }, 200);
-            //     }
-            // }
+        //     //         // Gulung halaman untuk memastikan baris terlihat
+        //     //         $('html, body').animate({
+        //     //             scrollTop: row.offset().top - 200
+        //     //         }, 200);
+        //     //     }
+        //     // }
 
-            // // Fungsi untuk memeriksa apakah karakter yang ditekan valid untuk pencarian
-            // function isValidSearchKey(event) {
-            //     // Cek jika tombol yang ditekan adalah huruf, angka, atau spasi
-            //     var charCode = event.which || event.keyCode;
-            //     return (
-            //         (charCode >= 48 && charCode <= 57) || // Angka 0-9
-            //         (charCode >= 65 && charCode <= 90) || // Huruf A-Z
-            //         (charCode >= 97 && charCode <= 122) || // Huruf a-z
-            //         charCode === 32 // Spasi
-            //     );
-            // }
+        //     // // Fungsi untuk memeriksa apakah karakter yang ditekan valid untuk pencarian
+        //     // function isValidSearchKey(event) {
+        //     //     // Cek jika tombol yang ditekan adalah huruf, angka, atau spasi
+        //     //     var charCode = event.which || event.keyCode;
+        //     //     return (
+        //     //         (charCode >= 48 && charCode <= 57) || // Angka 0-9
+        //     //         (charCode >= 65 && charCode <= 90) || // Huruf A-Z
+        //     //         (charCode >= 97 && charCode <= 122) || // Huruf a-z
+        //     //         charCode === 32 // Spasi
+        //     //     );
+        //     // }
 
-            // // Deteksi ketika ada input dari keyboard di manapun di halaman
-            // $(document).on('keyup', function(event) {
-            //     if (isModalOpen) {
-            //         return;
-            //     }
+        //     // // Deteksi ketika ada input dari keyboard di manapun di halaman
+        //     // $(document).on('keyup', function(event) {
+        //     //     if (isModalOpen) {
+        //     //         return;
+        //     //     }
 
-            //     if (event.key === 'Enter') {
-            //         if (table.rows('.selected').any()) {
-            //             var data = table.row('.selected').data();
-            //             openUpdateModal(data);
-            //         } else {
-            //             openAddModal();
-            //         }
-            //     } else if (event.key === 'ArrowUp') {
-            //         navigateTable('up'); // Navigasi ke atas
-            //     } else if (event.key === 'ArrowDown') {
-            //         navigateTable('down'); // Navigasi ke bawah
-            //     } else if (event.key === 'Delete' || event.key === 'Del') {
-            //         // Jika tombol delete ditekan
-            //         if (table.rows('.selected').any()) {
-            //             var data = table.row('.selected').data();
-            //             deleteUser(data.id); // Panggil fungsi deleteUser dengan id dari baris yang dipilih
-            //         }
-            //     } else if (isValidSearchKey(event)) {
-            //         // Jika karakter valid (huruf, angka, atau spasi), tambahkan ke searchString
-            //         searchString += event.key;
-            //         debounceSearch(); // Panggil debounce search setiap kali ada input yang valid
-            //     } else if (event.key === 'Backspace' && searchString.length > 0) {
-            //         searchString = searchString.slice(0, -1); // Hapus karakter terakhir
-            //         debounceSearch(); // Jalankan pencarian saat ada backspace
-            //     }
+        //     //     if (event.key === 'Enter') {
+        //     //         if (table.rows('.selected').any()) {
+        //     //             var data = table.row('.selected').data();
+        //     //             openUpdateModal(data);
+        //     //         } else {
+        //     //             openAddModal();
+        //     //         }
+        //     //     } else if (event.key === 'ArrowUp') {
+        //     //         navigateTable('up'); // Navigasi ke atas
+        //     //     } else if (event.key === 'ArrowDown') {
+        //     //         navigateTable('down'); // Navigasi ke bawah
+        //     //     } else if (event.key === 'Delete' || event.key === 'Del') {
+        //     //         // Jika tombol delete ditekan
+        //     //         if (table.rows('.selected').any()) {
+        //     //             var data = table.row('.selected').data();
+        //     //             deleteUser(data.id); // Panggil fungsi deleteUser dengan id dari baris yang dipilih
+        //     //         }
+        //     //     } else if (isValidSearchKey(event)) {
+        //     //         // Jika karakter valid (huruf, angka, atau spasi), tambahkan ke searchString
+        //     //         searchString += event.key;
+        //     //         debounceSearch(); // Panggil debounce search setiap kali ada input yang valid
+        //     //     } else if (event.key === 'Backspace' && searchString.length > 0) {
+        //     //         searchString = searchString.slice(0, -1); // Hapus karakter terakhir
+        //     //         debounceSearch(); // Jalankan pencarian saat ada backspace
+        //     //     }
 
-            //     // Jika searchString kosong dan pengguna menekan Backspace, jangan lakukan apa-apa
-            //     if (searchString.length === 0 && event.key === 'Backspace') {
-            //         return;
-            //     }
-            // });
+        //     //     // Jika searchString kosong dan pengguna menekan Backspace, jangan lakukan apa-apa
+        //     //     if (searchString.length === 0 && event.key === 'Backspace') {
+        //     //         return;
+        //     //     }
+        //     // });
 
-            // // Pilih row ketika navigasi menggunakan keyboard atau klik pada tabel
-            // $('#manajemen-users tbody').on('click', 'tr', function() {
-            //     if ($(this).hasClass('selected')) {
-            //         $(this).removeClass('selected');
-            //     } else {
-            //         table.$('tr.selected').removeClass('selected');
-            //         $(this).addClass('selected');
-            //     }
-            //     currentIndex = table.row(this).index(); // Update indeks baris yang dipilih
-            // });
-        });
+        //     // // Pilih row ketika navigasi menggunakan keyboard atau klik pada tabel
+        //     // $('#manajemen-users tbody').on('click', 'tr', function() {
+        //     //     if ($(this).hasClass('selected')) {
+        //     //         $(this).removeClass('selected');
+        //     //     } else {
+        //     //         table.$('tr.selected').removeClass('selected');
+        //     //         $(this).addClass('selected');
+        //     //     }
+        //     //     currentIndex = table.row(this).index(); // Update indeks baris yang dipilih
+        //     // });
+        // });
 
         // openModal
         function openModal(action, id = null) {
