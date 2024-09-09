@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Konfigurasi\ManajemenModulController;
 use App\Http\Controllers\Konfigurasi\ManajemenUserController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
@@ -22,5 +23,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/manajemen-users', [ManajemenUserController::class, 'store'])->name('manajemen-user.store');
         Route::put('/manajemen-users/{id}', [ManajemenUserController::class, 'update'])->name('manajemen-user.update');
         Route::delete('/manajemen-users/{id}', [ManajemenUserController::class, 'destroy'])->name('manajemen-user.destroy');
+
+        // manajemen modul routes
+        Route::get('/manajemen-moduls', [ManajemenModulController::class, 'index'])->name('manajemen-modul.index');
+        Route::post('/manajemen-moduls', [ManajemenModulController::class, 'store'])->name('manajemen-modul.store');
+        Route::put('/manajemen-moduls/{id}', [ManajemenModulController::class, 'update'])->name('manajemen-modul.update');
+        Route::delete('/manajemen-moduls/{id}', [ManajemenModulController::class, 'destroy'])->name('manajemen-modul.destroy');
     });
 });

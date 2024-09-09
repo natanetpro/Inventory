@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('module_menu', function (Blueprint $table) {
+        Schema::create('menu_modul', function (Blueprint $table) {
             $table->id();
             $table->string('key', 15)->nullable();
             $table->string('parent', 15)->nullable();
             $table->string('kode_modul', 15);
             $table->string('kode_key', 15)->nullable();
-            $table->string('nama_modul', 100);
-            $table->string('kode_grup', 100);
-            $table->string('nama_grup', 100);
-            $table->string('nama_form', 100);
+            $table->string('nama_modul', 100)->nullable();
+            $table->string('kode_grup', 100)->nullable();
+            $table->string('nama_grup', 100)->nullable();
+            $table->string('nama_url', 100)->default('#');
             $table->boolean('level1')->default(0);
             $table->boolean('level2')->default(0);
             $table->boolean('level3')->default(0);
