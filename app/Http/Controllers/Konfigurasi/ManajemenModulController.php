@@ -14,18 +14,17 @@ class ManajemenModulController extends Controller
 
     public function index(Request $request)
     {
-        $moduls = DB::table('menu_modul')->orderBy('key')->get();
-        // dd($moduls);
-        if ($request->ajax()) {
-            return datatables()->of($moduls)
-                ->addColumn('action', function ($data) {
-                    $button = '<button type="button" name="edit" id="module-' . $data->id . '" class="edit btn btn-primary btn-sm" tabindex="3" onclick="openModal(' . "'edit'" . ', ' . $data->id . ')">Edit</button>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="delete" id="module-' . $data->id . '" class="delete btn btn-danger btn-sm" tabindex="4" onclick="deleteModule(' . $data->id . ')">Delete</button>';
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+        $moduls = DB::table('menu_modul')->orderBy('key')->paginate(10);
+        // if ($request->ajax()) {
+        //     return datatables()->of($moduls)
+        //         ->addColumn('action', function ($data) {
+        //             $button = '<button type="button" name="edit" id="module-' . $data->id . '" class="edit btn btn-primary btn-sm" tabindex="3" onclick="openModal(' . "'edit'" . ', ' . $data->id . ')">Edit</button>';
+        //             $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="delete" id="module-' . $data->id . '" class="delete btn btn-danger btn-sm" tabindex="4" onclick="deleteModule(' . $data->id . ')">Delete</button>';
+        //             return $button;
+        //         })
+        //         ->rawColumns(['action'])
+        //         ->make(true);
+        // }
 
         return view('pages.konfigurasi.moduls.index', [
             'title' => $this->title,
@@ -58,11 +57,18 @@ class ManajemenModulController extends Controller
             // set parent
             $parent = $data[0] . '_';
 
-            // set key by checking last child of its parent for example the parent is 1, the the last child will be 1.01 use dots to separate the parent and the child and add _ at the end
-            $key = DB::table('menu_modul')->where('parent', $parent)->orderBy('key', 'desc')->first();
+            // set key by checking last child of its parent for example the parent is 1, the last child will be 1.01 use dots to separate the parent and the child and add _ at the end
+            $key = DB::table('menu_modul')
+                ->where('parent', $parent)
+                ->orderBy(DB::raw('LENGTH(`key`)'), 'desc') // Backticks around `key`
+                ->orderBy('key', 'desc')
+                ->first();
+
             if ($key) {
-                $key = explode('.', $key->key);
-                $key = $key[0] . '.' . str_pad((int) $key[1] + 1, 2, '0', STR_PAD_LEFT) . '_';
+                $keyParts = explode('.', rtrim($key->key, '_'));
+                $lastPart = array_pop($keyParts);
+                $newLastPart = str_pad((int) $lastPart + 1, 2, '0', STR_PAD_LEFT);
+                $key = implode('.', $keyParts) . '.' . $newLastPart . '_';
             } else {
                 $key = str_replace('_', '.', $parent) . '01_';
             }
@@ -104,6 +110,7 @@ class ManajemenModulController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
 
     public function update(Request $request, $id)
     {

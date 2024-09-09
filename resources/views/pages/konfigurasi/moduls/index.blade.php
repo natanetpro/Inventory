@@ -27,8 +27,14 @@
                     @foreach ($moduls as $modul)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $modul->kode_modul }}</td>
-                            <td>{{ $modul->nama_modul }}</td>
+                            {{-- Menghitung level hierarki berdasarkan jumlah titik di kode_modul --}}
+                            <td style="padding-left: {{ substr_count($modul->kode_modul, '.') * 20 }}px;">
+                                {{ $modul->kode_modul }}
+                            </td>
+                            {{-- Menghitung level hierarki berdasarkan jumlah titik di kode_modul --}}
+                            <td style="padding-left: {{ substr_count($modul->kode_modul, '.') * 20 }}px;">
+                                {{ $modul->nama_modul }}
+                            </td>
                             <td>{{ $modul->nama_url }}</td>
                             <td>{{ $modul->textlevel }}</td>
                             <td>
@@ -43,6 +49,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    {{-- pagination --}}
+    <div class="d-flex justify-content-center">
+        {!! $moduls->links() !!}
     </div>
 
     <!-- Modal -->
@@ -344,8 +355,9 @@
                                 'Data berhasil dihapus.',
                                 'success'
                             )
-                            $('#manajemen-moduls').DataTable().ajax.reload();
+                            // $('#manajemen-moduls').DataTable().ajax.reload();
                             isModalOpen = false;
+                            location.reload();
                         }
                     })
                 }
