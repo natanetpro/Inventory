@@ -53,11 +53,6 @@
         </div>
     </div>
 
-    {{-- pagination --}}
-    <div class="d-flex justify-content-center">
-        {!! $moduls->links() !!}
-    </div>
-
     <!-- Modal -->
     <div class="modal fade" id="modul-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-simple modal-edit-modal">

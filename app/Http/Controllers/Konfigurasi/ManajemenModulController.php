@@ -14,7 +14,7 @@ class ManajemenModulController extends Controller
 
     public function index(Request $request)
     {
-        $moduls = DB::table('menu_modul')->orderBy('key')->paginate(10);
+        $moduls = DB::table('menu_modul')->orderBy('key')->get();
         // if ($request->ajax()) {
         //     return datatables()->of($moduls)
         //         ->addColumn('action', function ($data) {
