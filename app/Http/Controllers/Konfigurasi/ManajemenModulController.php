@@ -48,7 +48,7 @@ class ManajemenModulController extends Controller
             'grup' => 'required',
             'nama_modul' => 'required',
             'nama_url' => 'nullable',
-            'file_path' => 'nullable',
+            // 'file_path' => 'nullable',
         ]);
         DB::beginTransaction();
         try {
@@ -102,7 +102,7 @@ class ManajemenModulController extends Controller
                 'kode_grup' => $kode_grup,
                 'nama_grup' => $nama_grup,
                 'nama_url' => $nama_url ?? '#',
-                'file_path' => $request->file_path ?? null,
+                // 'file_path' => $request->file_path ?? null,
             ]);
 
             DB::commit();
@@ -120,7 +120,7 @@ class ManajemenModulController extends Controller
             'grup' => 'required',
             'nama_modul' => 'required',
             'nama_url' => 'nullable',
-            'file_path' => 'nullable',
+            // 'file_path' => 'nullable',
         ]);
         DB::beginTransaction();
         try {
@@ -128,7 +128,7 @@ class ManajemenModulController extends Controller
             DB::table('menu_modul')->where('id', $id)->update([
                 'nama_modul' => $request->nama_modul,
                 'nama_url' => $request->nama_url,
-                'file_path' => $request->file_path ?? null,
+                // 'file_path' => $request->file_path ?? null,
             ]);
 
             DB::commit();

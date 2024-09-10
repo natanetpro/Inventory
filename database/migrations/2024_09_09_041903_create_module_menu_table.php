@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('kode_grup', 100)->nullable();
             $table->string('nama_grup', 100)->nullable();
             $table->string('nama_url', 100)->default('#');
-            $table->string('file_path', 100)->nullable();
+            // $table->string('file_path', 100)->nullable();
             $table->boolean('level1')->default(0);
             $table->boolean('level2')->default(0);
             $table->boolean('level3')->default(0);
