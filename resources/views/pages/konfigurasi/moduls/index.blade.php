@@ -137,7 +137,7 @@
         <script>
             Swal.fire(
                 'Error!',
-                '{{ session('error') }}',
+                `{{ session('error') }}`,
                 'error'
             )
         </script>

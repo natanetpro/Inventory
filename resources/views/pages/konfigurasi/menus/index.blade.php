@@ -39,39 +39,39 @@
                                     {{ $menu->nama_modul }}</td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="1" {{ $menu->level1 === 1 ? 'checked' : '' }}>
+                                        value="1" {{ $menu->level1 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="2" {{ $menu->level2 === 1 ? 'checked' : '' }}>
+                                        value="2" {{ $menu->level2 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="3" {{ $menu->level3 === 1 ? 'checked' : '' }}>
+                                        value="3" {{ $menu->level3 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="4" {{ $menu->level4 === 1 ? 'checked' : '' }}>
+                                        value="4" {{ $menu->level4 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="5" {{ $menu->level5 === 1 ? 'checked' : '' }}>
+                                        value="5" {{ $menu->level5 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="6" {{ $menu->level6 === 1 ? 'checked' : '' }}>
+                                        value="6" {{ $menu->level6 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="7" {{ $menu->level7 === 1 ? 'checked' : '' }}>
+                                        value="7" {{ $menu->level7 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="8" {{ $menu->level8 === 1 ? 'checked' : '' }}>
+                                        value="8" {{ $menu->level8 === true ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="form-check-input" name="level[{{ $menu->id }}][]"
-                                        value="9" {{ $menu->level9 === 1 ? 'checked' : '' }}>
+                                        value="9" {{ $menu->level9 === true ? 'checked' : '' }}>
                                 </td>
                             </tr>
                         @endforeach
