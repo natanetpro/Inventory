@@ -5,7 +5,6 @@
             @foreach ($menus as $menuItem)
                 <li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link {{ isset($menuItem->children) ? 'menu-toggle' : '' }}">
-                        <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
                         <div data-i18n="{{ $menuItem->nama_modul }}">{{ $menuItem->nama_modul }}</div>
                     </a>
 
