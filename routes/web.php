@@ -33,5 +33,6 @@ Route::middleware('auth')->group(function () {
 
         // manajemen menu routes
         Route::get('/manajemen-menus', [ManajemenMenuController::class, 'index'])->name('manajemen-menu.index');
+        Route::put('/manajemen-menus', [ManajemenMenuController::class, 'update'])->name('manajemen-menu.update');
     });
 });

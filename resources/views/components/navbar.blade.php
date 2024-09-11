@@ -33,7 +33,7 @@
 
         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <!-- Language -->
+                {{-- <!-- Language -->
                 <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                         <i class="fi fi-us fis rounded-circle me-1 fs-3"></i>
@@ -73,7 +73,7 @@
                         <i class="ti ti-search ti-md"></i>
                     </a>
                 </li>
-                <!-- /Search -->
+                <!-- /Search --> --}}
 
                 <!-- Style Switcher -->
                 <li class="nav-item me-2 me-xl-0">
@@ -83,7 +83,7 @@
                 </li>
                 <!--/ Style Switcher -->
 
-                <!-- Quick links  -->
+                {{-- <!-- Quick links  -->
                 <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-expanded="false">
@@ -394,12 +394,11 @@
                         </li>
                     </ul>
                 </li>
-                <!--/ Notification -->
+                <!--/ Notification --> --}}
 
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
-                        data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                         <div class="avatar avatar-online">
                             <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle" />
                         </div>
