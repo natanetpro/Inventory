@@ -3,9 +3,7 @@
 @section('content')
     <div style="width: 300px" class="mb-3">
         <h4 class="fw-bold py-3"><span class="fw-bold">{{ $title }}</h4>
-        <button class="btn btn-success" tabindex="1" onclick="openModal('create')" data-bs-toggle="modal"
-            data-bs-target="#modul-modal">Tambah
-            Data</button>
+
     </div>
 
     <!-- DataTable with Buttons -->
@@ -40,11 +38,14 @@
                             {{-- <td>{{ $modul->file_path }}</td> --}}
                             <td>{{ $modul->textlevel }}</td>
                             <td>
+                                <button class="btn btn-success" tabindex="1"
+                                    onclick="openModal('create', {{ $modul->id }})" data-bs-toggle="modal"
+                                    data-bs-target="#modul-modal"><i class="ti ti-plus"></i></button>
                                 <button class="btn btn-warning" tabindex="1"
                                     onclick="openModal('edit', {{ $modul->id }})" data-bs-toggle="modal"
-                                    data-bs-target="#modul-modal">Edit</button>
+                                    data-bs-target="#modul-modal"><i class="ti ti-pencil"></i></button>
                                 <button class="btn btn-danger" tabindex="1"
-                                    onclick="deleteModule({{ $modul->id }})">Hapus</button>
+                                    onclick="deleteModule({{ $modul->id }})"><i class="ti ti-trash"></i></button>
                             </td>
                         </tr>
                     @endforeach
@@ -68,14 +69,16 @@
                         @csrf
                         <div class="mb-3">
                             <label for="grup" class="form-label">Grup</label>
-                            <select id="grup"
+                            {{-- <select id="grup"
                                 class="select2 form-select form-select-lg @error('grup') is-invalid @enderror"
                                 data-allow-clear="true" name="grup" required>
                                 @foreach ($moduls as $modul)
                                     <option value="{{ $modul->kode_modul }}-{{ strtoupper($modul->nama_modul) }}">
                                         {{ $modul->kode_modul }}-{{ strtoupper($modul->nama_modul) }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
+                            <input type="text" class="form-control @error('grup') is-invalid @enderror"
+                                id="basic-default-fullname" name="grup" required disabled />
                             @error('grup')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -300,15 +303,35 @@
         //     // });
         // });
 
+        // dataTables
+        $(document).ready(function() {
+            $('#manajemen-moduls').DataTable();
+        });
+
         // openModal
-        function openModal(action, id = null) {
+        function openModal(action, id) {
             isModalOpen = true;
             $('#modul-modal').modal('show');
             $('#form-moduls').trigger('reset');
             if (action === 'create') {
                 $('#modal-title').text('Tambah Modul');
-                $('#form-moduls select[name="grup"]').attr('disabled', false);
+                $.ajax({
+                    url: `{{ url('api/konfigurasi/manajemen-moduls/${id}') }}`,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function response(data) {
+                        $('#form-moduls input[name="grup"]').val(data.data.kode_modul + '-' + data.data
+                            .nama_modul.toUpperCase());
+                        $('#form-moduls input[name="grup"]').attr('disabled', true);
+                        $('#form-moduls').attr('action', `{{ route('konfigurasi.manajemen-modul.store') }}`);
+                        $('#form-moduls').append('<input type="hidden" name="_method" value="POST">');
 
+                        // when submit form, remove disabled attribute
+                        $('#form-moduls').submit(function() {
+                            $('#form-moduls input[name="grup"]').attr('disabled', false);
+                        });
+                    }
+                })
             } else if (action === 'edit' && id != null) {
                 $('#modal-title').text('Edit Modul');
                 $.ajax({
@@ -318,9 +341,9 @@
                     success: function response(data) {
                         console.log(data.data);
 
-                        $('#form-moduls select[name="grup"]').val(data.data.kode_modul + '-' + data.data
+                        $('#form-moduls input[name="grup"]').val(data.data.kode_modul + '-' + data.data
                             .nama_modul.toUpperCase());
-                        $('#form-moduls select[name="grup"]').attr('disabled', true);
+                        $('#form-moduls input[name="grup"]').attr('disabled', true);
                         $('#form-moduls input[name="nama_modul"]').val(data.data.nama_modul);
                         $('#form-moduls input[name="nama_url"]').val(data.data.nama_url);
                         // $('#form-moduls input[name="file_path"]').val(data.data.file_path ?? '');
@@ -330,7 +353,7 @@
 
                         // when submit form, remove disabled attribute
                         $('#form-moduls').submit(function() {
-                            $('#form-moduls select[name="grup"]').attr('disabled', false);
+                            $('#form-moduls input[name="grup"]').attr('disabled', false);
                         });
                     }
                 })
