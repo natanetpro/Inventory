@@ -14,9 +14,7 @@ class ManajemenModulController extends Controller
 
     public function index(Request $request)
     {
-        $moduls = DB::table('menu_modul')
-            ->orderBy(DB::raw('CAST(regexp_replace(key, \'[^0-9\.]\', \'\', \'g\') AS FLOAT)'), 'ASC')
-            ->get();;
+        $moduls = DB::table('menu_modul')->orderBy('kode_modul', 'asc')->get();
         // if ($request->ajax()) {
         //     return datatables()->of($moduls)
         //         ->addColumn('action', function ($data) {
