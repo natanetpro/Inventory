@@ -4,7 +4,8 @@
         <ul class="menu-inner">
             @foreach ($menus as $menuItem)
                 <li class="menu-item">
-                    <a href="javascript:void(0)" class="menu-link {{ isset($menuItem->children) ? 'menu-toggle' : '' }}">
+                    <a href="javascript:void(0)"
+                        class="menu-link {{ isset($menuItem->children) ? 'menu-toggle' : '' }} fw-bold">
                         <div data-i18n="{{ $menuItem->nama_modul }}">{{ $menuItem->nama_modul }}</div>
                     </a>
 

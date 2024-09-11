@@ -3,7 +3,7 @@
     @foreach ($children as $childItem)
         <li class="menu-item">
             <a href="{{ url($childItem->nama_url) }}"
-                class="menu-link {{ isset($childItem->children) ? 'menu-toggle' : '' }}">
+                class="menu-link {{ isset($childItem->children) ? 'menu-toggle' : '' }} fw-bold">
                 <div data-i18n="{{ $childItem->nama_modul }}">{{ $childItem->nama_modul }}</div>
             </a>
 
