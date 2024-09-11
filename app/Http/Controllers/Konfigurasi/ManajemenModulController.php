@@ -61,7 +61,7 @@ class ManajemenModulController extends Controller
             // set key by checking last child of its parent for example the parent is 1, the last child will be 1.01 use dots to separate the parent and the child and add _ at the end
             $key = DB::table('menu_modul')
                 ->where('parent', $parent)
-                ->orderBy(DB::raw('LENGTH(`key`)'), 'desc') // Backticks around `key`
+                ->orderBy(DB::raw('LENGTH(key)'), 'desc') // Backticks around `key`
                 ->orderBy('key', 'desc')
                 ->first();
 
