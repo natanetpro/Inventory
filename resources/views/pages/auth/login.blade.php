@@ -31,13 +31,13 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1 pt-2">Welcome to {{ env('APP_NAME') }}! 👋</h4>
-                        <p class="mb-4">Please sign-in to your account</p>
+                        <h4 class="mb-1 pt-2">NataNetPro {{ env('APP_NAME') }}! 👋</h4>
+                     <!--   <p class="mb-4">Login Inventory Control</p>-->
 
                         <form class="mb-3" action="{{ route('authenticate') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label">Nama</label>
+                                <label class="form-label">User</label>
                                 <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama"
                                     autofocus required value="{{ old('nama') }}" />
                             </div>
