@@ -193,6 +193,46 @@ class ModulSeeder extends Seeder
                 'level8' => 1,
                 'level9' => 1,
                 'textlevel' => '89'
+            ],
+            [
+                'key' => '9_1',
+                'parent' => '9_',
+                'kode_modul' => 9.01,
+                'kode_key' => 9,
+                'nama_modul' => 'Manajemen Modul',
+                'kode_grup' => 9,
+                'nama_grup' => 'Manajemen Modul',
+                'nama_url' => 'konfigurasi/manajemen-moduls',
+                'level1' => 0,
+                'level2' => 0,
+                'level3' => 0,
+                'level4' => 0,
+                'level5' => 0,
+                'level6' => 0,
+                'level7' => 0,
+                'level8' => 1,
+                'level9' => 1,
+                'textlevel' => '89'
+            ],
+            [
+                'key' => '9_2',
+                'parent' => '9_',
+                'kode_modul' => 9.02,
+                'kode_key' => 9,
+                'nama_modul' => 'Manajemen Menu',
+                'kode_grup' => 9,
+                'nama_grup' => 'Manajemen Menu',
+                'nama_url' => 'konfigurasi/manajemen-menus',
+                'level1' => 0,
+                'level2' => 0,
+                'level3' => 0,
+                'level4' => 0,
+                'level5' => 0,
+                'level6' => 0,
+                'level7' => 0,
+                'level8' => 1,
+                'level9' => 1,
+                'textlevel' => '89'
             ]
         ]);
     }

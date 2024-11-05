@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Daftar\SupplierDaftarController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Konfigurasi\ManajemenMenuController;
 use App\Http\Controllers\Konfigurasi\ManajemenModulController;
 use App\Http\Controllers\Konfigurasi\ManajemenUserController;
-use App\Http\Controllers\Konfigurasi\SupplierDaftarController;
-
+use App\Http\Controllers\Pelanggan\PelangganDaftarController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -39,14 +39,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/manajemen-menus', [ManajemenMenuController::class, 'update'])->name('manajemen-menu.update');
     });
 
-// konfigurasi daftar
-Route::prefix('daftar')->name('daftar.')->group(function () {
-Route::get('/supplier-moduls', [SupplierDaftarController::class, 'index'])->name('supplier-modul.index');
-   
-    
-});
-
-
-
-
+    // konfigurasi daftar
+    Route::prefix('daftar')->name('daftar.')->group(function () {
+        Route::get('/supplier', [SupplierDaftarController::class, 'index'])->name('supplier-modul.index');
+        Route::get('/pelanggan', [PelangganDaftarController::class, 'index'])->name('pelanggan-modul.index');
+    });
 });

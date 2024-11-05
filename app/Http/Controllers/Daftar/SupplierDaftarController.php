@@ -12,7 +12,6 @@ class SupplierDaftarController extends Controller
 
     public function index()
     {
-        
         return view('pages.daftar.supplier.index', ['title' => $this->title]);
     }
 
