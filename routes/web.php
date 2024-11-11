@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Daftar\SupplierDaftarController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Konfigurasi\ManajemenMenuController;
 use App\Http\Controllers\Konfigurasi\ManajemenModulController;
 use App\Http\Controllers\Konfigurasi\ManajemenUserController;
 use App\Http\Controllers\Pelanggan\PelangganDaftarController;
+use App\Http\Controllers\Daftar\SupplierDaftarController;
+
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
